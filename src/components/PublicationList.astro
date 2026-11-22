@@ -16,9 +16,14 @@ const linkKeys = ['pdf', 'arxiv', 'code', 'project'] as const;
 {groups.map(([year, ps]) => ps.length > 0 && (
   <section>
     {year !== '' && <h3>{year}</h3>}
-    <ul class="plain-list">
+    <ul class="card-list">
       {ps.map((p) => (
-        <li>
+        <li class={`card t-${p.type}`}>
+          <div class="card-badges">
+            <span class="badge venue">{p.venue}</span>
+            <span class="badge year">{p.year}</span>
+            <span class="badge type">{ui.pubTypes[p.type]}</span>
+          </div>
           <div class="pub-title">{p.title}{p.sample && <span class="tag">{ui.samplePub}</span>}</div>
           <div class="pub-meta">
             {p.authors.map((a, i) => (

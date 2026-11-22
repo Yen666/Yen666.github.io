@@ -12,9 +12,14 @@ const ui = t(lang);
 <BaseLayout lang={lang} path="/">
   <section class="hero">
     <img src={withBase(profile.headshot)} alt={ui.headshotAlt} width="144" height="144" />
-    <div>
+    <div class="hero-body">
       <h1>{profile.name[lang]}{lang === 'zh' && <span class="muted"> {profile.romanization}</span>}</h1>
-      <p class="role"><Text value={profile.role} lang={lang} />, <Text value={profile.affiliation} lang={lang} /></p>
+      <p class="role"><Text value={profile.role} lang={lang} /></p>
+      <p class="affil"><Text value={profile.affiliation} lang={lang} /></p>
+      <ul class="chips">
+        {profile.interests.map((i) => <li><Text value={i} lang={lang} /></li>)}
+      </ul>
+      <Contact lang={lang} cv />
     </div>
   </section>
 

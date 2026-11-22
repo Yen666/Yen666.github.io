@@ -83,7 +83,8 @@ const zhHref = lang === 'zh' ? canonical : altHref;
         a.addEventListener('click', function (e) {
           e.preventDefault();
           var addr = a.dataset.u + '@' + a.dataset.d;
-          a.textContent = addr;
+          var label = a.querySelector('.btn-label') || a;
+          label.textContent = addr;
           a.href = 'mailto:' + addr;
         }, { once: true });
       });

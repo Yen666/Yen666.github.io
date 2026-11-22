@@ -1,17 +1,38 @@
 ---
 import { profile, t } from '../lib/data';
-import type { Lang } from '../lib/url';
-const { lang } = Astro.props as { lang: Lang };
+import { localePath, withBase, type Lang } from '../lib/url';
+interface Props { lang: Lang; cv?: boolean }
+const { lang, cv = false } = Astro.props;
 const ui = t(lang);
 const e = profile.email;
+// Simple 24x24 stroke/fill icon paths (inline, no external requests).
+const icons = {
+  mail: 'M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11Zm2.2-.3 6.8 5.4 6.8-5.4-.1-.2H5.3l-.1.2Z',
+  github: 'M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z',
+  scholar: 'M12 3 1 9l11 6 9-4.9V17h2V9L12 3Zm-6 9.2v3.6c0 1.8 2.7 3.2 6 3.2s6-1.4 6-3.2v-3.6l-6 3.3-6-3.3Z',
+  linkedin: 'M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.8v1.6h.05c.53-1 1.83-2 3.77-2 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4V9.5Z',
+  cv: 'M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm7 1.5V8h4.5L13 3.5ZM7 12h10v1.5H7V12Zm0 3.5h10V17H7v-1.5Z',
+} as const;
+const cvHref = profile.cvPdf ? withBase(profile.cvPdf) : localePath(lang, '/cv/');
 ---
-<ul class="contact-list">
+<ul class="btn-row">
   <li>
     {e
-      ? <a href="#email" data-u={e.user} data-d={e.domain}>{ui.emailReveal}</a>
-      : <span class="muted">{ui.emailMissing}</span>}
+      ? <a class="btn" href="#email" data-u={e.user} data-d={e.domain}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.mail} /></svg><span class="btn-label">{ui.emailReveal}</span></a>
+      : <span class="btn off" title={ui.emailMissing}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.mail} /></svg>{ui.emailMissing}</span>}
   </li>
-  <li><a href={profile.github}>GitHub</a></li>
-  <li>{profile.linkedin ? <a href={profile.linkedin}>LinkedIn</a> : <span class="muted">TODO: LinkedIn</span>}</li>
-  <li>{profile.scholar ? <a href={profile.scholar}>Google Scholar</a> : <span class="muted">TODO: Google Scholar</span>}</li>
+  <li><a class="btn alt" href={profile.github}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.github} /></svg>GitHub</a></li>
+  <li>
+    {profile.scholar
+      ? <a class="btn teal" href={profile.scholar}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.scholar} /></svg>Google Scholar</a>
+      : <span class="btn off"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.scholar} /></svg>TODO: Google Scholar</span>}
+  </li>
+  <li>
+    {profile.linkedin
+      ? <a class="btn alt" href={profile.linkedin}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.linkedin} /></svg>LinkedIn</a>
+      : <span class="btn off"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.linkedin} /></svg>TODO: LinkedIn</span>}
+  </li>
+  {cv && (
+    <li><a class="btn amber" href={cvHref}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.cv} /></svg>{ui.cvButton}</a></li>
+  )}
 </ul>

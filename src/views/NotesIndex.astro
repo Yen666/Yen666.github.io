@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { notesForLang } from '../lib/notes';
+import { t } from '../lib/data';
+import { localePath, type Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+const items = await notesForLang(lang);
+---
+<BaseLayout lang={lang} path="/notes/" title={ui.notes}>
+  <h1>{ui.notes}</h1>
+  <p>{ui.notesIntro}</p>
+  {items.length === 0 && <p class="muted">{ui.noNotes}</p>}
+  <ul class="plain-list">
+    {items.map(({ note, fallback }) => (
+      <li lang={fallback ? 'en' : undefined}>
+        <span class="date">{note.data.date.toISOString().slice(0, 10)}</span>
+        <a href={localePath(fallback ? 'en' : lang, `/notes/${note.data.slug}/`)}>{note.data.title}</a>
+        {fallback && <span class="tag">{ui.englishOnly}</span>}
+        {note.data.sample && <span class="tag">{ui.sample}</span>}
+        <div class="pub-meta">{note.data.summary}</div>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

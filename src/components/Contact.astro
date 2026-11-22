@@ -1,0 +1,17 @@
+---
+import { profile, t } from '../lib/data';
+import type { Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+const e = profile.email;
+---
+<ul class="contact-list">
+  <li>
+    {e
+      ? <a href="#email" data-u={e.user} data-d={e.domain}>{ui.emailReveal}</a>
+      : <span class="muted">{ui.emailMissing}</span>}
+  </li>
+  <li><a href={profile.github}>GitHub</a></li>
+  <li>{profile.linkedin ? <a href={profile.linkedin}>LinkedIn</a> : <span class="muted">TODO: LinkedIn</span>}</li>
+  <li>{profile.scholar ? <a href={profile.scholar}>Google Scholar</a> : <span class="muted">TODO: Google Scholar</span>}</li>
+</ul>

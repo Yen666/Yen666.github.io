@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Text from '../components/Text.astro';
+import PublicationList from '../components/PublicationList.astro';
+import NewsList from '../components/NewsList.astro';
+import Contact from '../components/Contact.astro';
+import { profile, t, pick } from '../lib/data';
+import { localePath, withBase, type Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+---
+<BaseLayout lang={lang} path="/">
+  <section class="hero">
+    <img src={withBase(profile.headshot)} alt={ui.headshotAlt} width="144" height="144" />
+    <div>
+      <h1>{profile.name[lang]}{lang === 'zh' && <span class="muted"> {profile.romanization}</span>}</h1>
+      <p class="role"><Text value={profile.role} lang={lang} />, <Text value={profile.affiliation} lang={lang} /></p>
+    </div>
+  </section>
+
+  <h2>{ui.about}</h2>
+  {profile.bio.map((p) => <p><Text value={p} lang={lang} /></p>)}
+
+  <h2>{ui.interests}</h2>
+  <ul class="interest-list">
+    {profile.interests.map((i) => <li><Text value={i} lang={lang} /></li>)}
+  </ul>
+
+  <h2>{ui.selectedPubs}</h2>
+  <PublicationList lang={lang} selectedOnly />
+  <p class="more"><a href={localePath(lang, '/publications/')}>{ui.allPubs} →</a></p>
+
+  <h2>{ui.latestNews}</h2>
+  <NewsList lang={lang} limit={5} />
+  <p class="more"><a href={localePath(lang, '/news/')}>{ui.allNews} →</a></p>
+
+  <h2>{ui.contact}</h2>
+  <Contact lang={lang} />
+</BaseLayout>

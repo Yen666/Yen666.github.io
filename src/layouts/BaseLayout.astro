@@ -1,0 +1,92 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { localePath, withBase, altLang, type Lang } from '../lib/url';
+import { t } from '../lib/data';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+  /** Locale-less path of this page, e.g. "/publications/". */
+  path: string;
+  /** Locale-less path of the other-language twin, or null if none exists. */
+  altPath?: string | null;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+const { lang, title, description, path, altPath = path, ogType = 'website', noindex = false } = Astro.props;
+const ui = t(lang);
+const fullTitle = title ? `${title} · ${ui.siteTitle}` : ui.siteTitle;
+const desc = description ?? ui.description;
+const site = Astro.site!;
+const canonical = new URL(localePath(lang, path), site).href;
+const ogImage = new URL(withBase('/og-default.png'), site).href;
+const other = altLang(lang);
+const altHref = altPath ? new URL(localePath(other, altPath), site).href : null;
+const enHref = lang === 'en' ? canonical : altHref;
+const zhHref = lang === 'zh' ? canonical : altHref;
+---
+<!doctype html>
+<html lang={lang === 'zh' ? 'zh-Hant' : 'en'}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    {enHref && <link rel="alternate" hreflang="en" href={enHref} />}
+    {zhHref && <link rel="alternate" hreflang="zh-Hant" href={zhHref} />}
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="alternate" type="application/rss+xml" title={ui.rss} href={localePath(lang, '/rss.xml')} />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'zh' ? 'zh_TW' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogImage} />
+    <script is:inline>
+      // Set theme before paint to avoid a flash. Stored choice wins, else OS preference.
+      (function () {
+        var s = null;
+        try { s = localStorage.getItem('theme'); } catch (e) {}
+        var dark = s ? s === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{ui.skipToContent}</a>
+    <Header lang={lang} path={path} altPath={altPath} />
+    <main id="main" class="wrap">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script is:inline>
+      document.querySelectorAll('[data-theme-toggle]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = next;
+          try { localStorage.setItem('theme', next); } catch (e) {}
+        });
+      });
+      // Email de-obfuscation: address is split in HTML and only joined here.
+      document.querySelectorAll('a[data-u][data-d]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          var addr = a.dataset.u + '@' + a.dataset.d;
+          a.textContent = addr;
+          a.href = 'mailto:' + addr;
+        }, { once: true });
+      });
+    </script>
+  </body>
+</html>

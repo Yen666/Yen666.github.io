@@ -1,0 +1,14 @@
+[
+  {
+    "id": "sample-news-a",
+    "sample": true,
+    "date": "2026-11-23",
+    "text": { "en": "TODO: Sample news item (replace or delete).", "zh": null }
+  },
+  {
+    "id": "sample-news-b",
+    "sample": true,
+    "date": "2026-11-22",
+    "text": { "en": "TODO: Another sample news item.", "zh": null }
+  }
+]

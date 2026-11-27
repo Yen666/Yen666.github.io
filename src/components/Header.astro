@@ -1,18 +1,21 @@
 ---
 import { localePath, altLang, type Lang } from '../lib/url';
-import { t } from '../lib/data';
+import { t, has } from '../lib/data';
+import { hasNotes } from '../lib/notes';
 
 interface Props { lang: Lang; path: string; altPath?: string | null }
 const { lang, path, altPath = path } = Astro.props;
 const ui = t(lang);
-const items = [
-  ['/', ui.nav.home],
-  ['/publications/', ui.nav.publications],
-  ['/open-source/', ui.nav.opensource],
-  ['/news/', ui.nav.news],
-  ['/notes/', ui.nav.notes],
-  ['/cv/', ui.nav.cv],
-] as const;
+const notesOn = await hasNotes();
+// Pages without content stay routable but are not linked.
+const items = ([
+  ['/', ui.nav.home, true],
+  ['/publications/', ui.nav.publications, has.publications()],
+  ['/open-source/', ui.nav.opensource, has.openSource()],
+  ['/news/', ui.nav.news, has.news()],
+  ['/notes/', ui.nav.notes, notesOn],
+  ['/cv/', ui.nav.cv, has.cv()],
+] as const).filter(([, , on]) => on);
 const isCurrent = (p: string) => (p === '/' ? path === '/' : path.startsWith(p));
 // If the twin page does not exist, send the switcher to the other language's home.
 const switchHref = localePath(altLang(lang), altPath ?? '/');

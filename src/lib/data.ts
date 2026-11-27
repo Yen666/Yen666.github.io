@@ -35,6 +35,24 @@ export function sortedNews() {
   return [...news].sort((a, b) => b.date.localeCompare(a.date));
 }
 
+/** True for unfinished text ("TODO..."); such strings are never rendered. */
+export const isTodo = (v: string | null | undefined) => !!v && /^\s*TODO\b/i.test(v);
+
+/** Bio paragraphs worth showing: non-empty, not a TODO placeholder. */
+export const bioParagraphs = () =>
+  profile.bio.filter((p) => (p.en || p.zh) && !isTodo(p.en) && !isTodo(p.zh));
+
+/** Which content areas have something to show. Empty data hides sections and nav links. */
+export const has = {
+  bio: () => bioParagraphs().length > 0,
+  interests: () => profile.interests.length > 0,
+  publications: () => publications.length > 0,
+  selectedPublications: () => publications.some((p) => p.selected),
+  news: () => news.length > 0,
+  openSource: () => openSource.length > 0,
+  cv: () => !!profile.cvPdf || cv.sections.some((s) => s.items.length > 0),
+};
+
 export function publicationsByYear() {
   const years = new Map<number, typeof publications>();
   for (const p of [...publications].sort((a, b) => b.year - a.year)) {

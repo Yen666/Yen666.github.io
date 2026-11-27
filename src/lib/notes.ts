@@ -22,5 +22,7 @@ export async function notesForLang(lang: Lang): Promise<{ note: Note; fallback: 
   return out.sort((a, b) => b.note.data.date.valueOf() - a.note.data.date.valueOf());
 }
 
+export const hasNotes = async () => (await allNotes()).length > 0;
+
 export const noteTwin = async (note: Note, lang: Lang) =>
   (await allNotes()).find((n) => n.data.slug === note.data.slug && n.data.lang === lang);

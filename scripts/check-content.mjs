@@ -137,7 +137,6 @@ for (const f of todoFiles) {
   const n = (readFileSync(f, 'utf8').match(/TODO:/g) ?? []).length;
   if (n && !f.endsWith('ui.json')) todoCount += n;
 }
-if (profile?.romanization) warn('TODO still open: confirm romanization of the name (profile.json "romanization", selfNames)');
 if (todoCount) warn(`${todoCount} "TODO:" placeholders remain in src/ and public/ (run: grep -rn "TODO:" src public)`);
 
 for (const w of warnings) console.warn(`WARN  ${w}`);

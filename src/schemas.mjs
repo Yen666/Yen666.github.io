@@ -4,7 +4,7 @@
 //  - src/lib/data.ts (parses JSON data at build time)
 // Convention: every user-facing string is bilingual {en, zh}. A missing translation is `null`
 // (rendered as an honest "translation not available" notice) — never machine-translated.
-// Unknown facts are strings starting with "TODO:".
+// Unknown facts: leave null/empty or omit the entry; empty data hides the section on the site.
 
 export const makeSchemas = (z) => {
   const bi = z.object({ en: z.string().nullable(), zh: z.string().nullable() });
@@ -12,8 +12,7 @@ export const makeSchemas = (z) => {
 
   const profile = z.object({
     name: bi, // display name
-    romanization: z.string(), // e.g. "Yen-Wei Chang" (TODO: confirm)
-    selfNames: z.array(z.string()).min(1), // names matched to highlight yourself in author lists
+    romanization: z.string(), // e.g. "Yen-Wei Chang"    selfNames: z.array(z.string()).min(1), // names matched to highlight yourself in author lists
     role: bi,
     affiliation: bi,
     interests: z.array(bi),
@@ -23,13 +22,11 @@ export const makeSchemas = (z) => {
     scholar: url.nullable(),
     email: z.object({ user: z.string(), domain: z.string() }).nullable(), // obfuscated at render time
     cvPdf: z.string().nullable(), // path under public/, e.g. "cv.pdf"; null = not yet available
-    headshot: z.string(), // path under public/
-    headshotIsPlaceholder: z.boolean(),
+    headshot: z.string().nullable(), // path under public/; null = no photo (image hidden)
   });
 
   const publication = z.object({
     id: z.string().regex(/^[a-z0-9-]+$/),
-    sample: z.boolean().default(false), // true = placeholder entry, remove when real ones exist
     title: z.string(),
     authors: z.array(z.string()).min(1),
     venue: z.string(),
@@ -44,7 +41,6 @@ export const makeSchemas = (z) => {
 
   const newsItem = z.object({
     id: z.string().regex(/^[a-z0-9-]+$/),
-    sample: z.boolean().default(false),
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     text: bi,
     link: url.optional(),
@@ -52,7 +48,6 @@ export const makeSchemas = (z) => {
 
   const openSource = z.object({
     id: z.string().regex(/^[a-z0-9-]+$/),
-    sample: z.boolean().default(false),
     project: z.string(),
     url: url,
     description: bi,
@@ -91,7 +86,6 @@ export const makeSchemas = (z) => {
     summary: z.string(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
-    sample: z.boolean().default(false),
   });
 
   return { bi, profile, publication, newsItem, openSource, cv, note };

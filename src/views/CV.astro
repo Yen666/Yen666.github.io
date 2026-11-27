@@ -8,12 +8,8 @@ const ui = t(lang);
 ---
 <BaseLayout lang={lang} path="/cv/" title={ui.cv}>
   <h1>{ui.cv}</h1>
-  <p>
-    {profile.cvPdf
-      ? <a href={withBase(profile.cvPdf)}>{ui.cvPdf}</a>
-      : <span class="muted">{ui.cvPdfMissing}</span>}
-  </p>
-  {cv.sections.map((s) => (
+  {profile.cvPdf && <p><a href={withBase(profile.cvPdf)}>{ui.cvPdf}</a></p>}
+  {cv.sections.filter((s) => s.items.length > 0).map((s) => (
     <section id={s.id}>
       <h2><Text value={s.title} lang={lang} /></h2>
       {s.items.map((it) => (

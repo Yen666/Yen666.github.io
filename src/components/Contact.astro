@@ -1,5 +1,5 @@
 ---
-import { profile, t } from '../lib/data';
+import { profile, t, has } from '../lib/data';
 import { localePath, withBase, type Lang } from '../lib/url';
 interface Props { lang: Lang; cv?: boolean }
 const { lang, cv = false } = Astro.props;
@@ -14,25 +14,25 @@ const icons = {
   cv: 'M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Zm7 1.5V8h4.5L13 3.5ZM7 12h10v1.5H7V12Zm0 3.5h10V17H7v-1.5Z',
 } as const;
 const cvHref = profile.cvPdf ? withBase(profile.cvPdf) : localePath(lang, '/cv/');
+const showCv = cv && has.cv();
+const any = !!(e || profile.github || profile.scholar || profile.linkedin || showCv);
 ---
+{any && (
 <ul class="btn-row">
-  <li>
-    {e
-      ? <a class="btn" href="#email" data-u={e.user} data-d={e.domain}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.mail} /></svg><span class="btn-label">{ui.emailReveal}</span></a>
-      : <span class="btn off" title={ui.emailMissing}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.mail} /></svg>{ui.emailMissing}</span>}
-  </li>
-  <li><a class="btn alt" href={profile.github}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.github} /></svg>GitHub</a></li>
-  <li>
-    {profile.scholar
-      ? <a class="btn teal" href={profile.scholar}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.scholar} /></svg>Google Scholar</a>
-      : <span class="btn off"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.scholar} /></svg>TODO: Google Scholar</span>}
-  </li>
-  <li>
-    {profile.linkedin
-      ? <a class="btn alt" href={profile.linkedin}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.linkedin} /></svg>LinkedIn</a>
-      : <span class="btn off"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.linkedin} /></svg>TODO: LinkedIn</span>}
-  </li>
-  {cv && (
+  {e && (
+    <li><a class="btn" href="#email" data-u={e.user} data-d={e.domain}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.mail} /></svg><span class="btn-label">{ui.emailReveal}</span></a></li>
+  )}
+  {profile.github && (
+    <li><a class="btn alt" href={profile.github}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.github} /></svg>GitHub</a></li>
+  )}
+  {profile.scholar && (
+    <li><a class="btn teal" href={profile.scholar}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.scholar} /></svg>Google Scholar</a></li>
+  )}
+  {profile.linkedin && (
+    <li><a class="btn alt" href={profile.linkedin}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.linkedin} /></svg>LinkedIn</a></li>
+  )}
+  {showCv && (
     <li><a class="btn amber" href={cvHref}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={icons.cv} /></svg>{ui.cvButton}</a></li>
   )}
 </ul>
+)}

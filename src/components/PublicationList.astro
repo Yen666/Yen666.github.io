@@ -12,7 +12,6 @@ const groups = selectedOnly
 const isSelf = (a: string) => profile.selfNames.includes(a);
 const linkKeys = ['pdf', 'arxiv', 'code', 'project'] as const;
 ---
-{groups.every(([, ps]) => ps.length === 0) && <p class="muted">{ui.noPubs}</p>}
 {groups.map(([year, ps]) => ps.length > 0 && (
   <section>
     {year !== '' && <h3>{year}</h3>}
@@ -24,7 +23,7 @@ const linkKeys = ['pdf', 'arxiv', 'code', 'project'] as const;
             <span class="badge year">{p.year}</span>
             <span class="badge type">{ui.pubTypes[p.type]}</span>
           </div>
-          <div class="pub-title">{p.title}{p.sample && <span class="tag">{ui.samplePub}</span>}</div>
+          <div class="pub-title">{p.title}</div>
           <div class="pub-meta">
             {p.authors.map((a, i) => (
               <Fragment>{i > 0 && ', '}{isSelf(a) ? <span class="self">{a}</span> : a}</Fragment>

@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": "anomaly-lr-2026",
+    "title": "Industrial Anomaly Detection via Defect-Grounded Reasoning in Visual Latent Space",
+    "authors": [
+      "Jaron Yeh",
+      "Yen-Wei Chang",
+      "Jiang Liu",
+      "Shao-Yuan Lo"
+    ],
+    "venue": "arXiv preprint",
+    "year": 2026,
+    "type": "preprint",
+    "selected": true,
+    "links": {
+      "arxiv": "https://arxiv.org/abs/2609.29457",
+      "code": "https://github.com/Yen666/Anomaly-LR"
+    },
+    "note": {
+      "en": "Equal contribution with Jaron Yeh",
+      "zh": "與 Jaron Yeh 共同第一作者"
+    }
+  }
+]

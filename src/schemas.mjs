@@ -12,7 +12,8 @@ export const makeSchemas = (z) => {
 
   const profile = z.object({
     name: bi, // display name
-    romanization: z.string(), // e.g. "Yen-Wei Chang"    selfNames: z.array(z.string()).min(1), // names matched to highlight yourself in author lists
+    romanization: z.string(), // e.g. "Yen-Wei Chang"
+    selfNames: z.array(z.string()).min(1), // names matched to highlight yourself in author lists
     role: bi,
     affiliation: bi,
     interests: z.array(bi),

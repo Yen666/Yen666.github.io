@@ -1,7 +1,13 @@
 {
-  "name": { "en": "Yen-Wei Chang", "zh": "張彥崴" },
+  "name": {
+    "en": "Yen-Wei Chang",
+    "zh": "張彥崴"
+  },
   "romanization": "Yen-Wei Chang",
-  "selfNames": ["Yen-Wei Chang", "張彥崴"],
+  "selfNames": [
+    "Yen-Wei Chang",
+    "張彥崴"
+  ],
   "role": {
     "en": "Undergraduate Student",
     "zh": "大學部學生"
@@ -11,10 +17,22 @@
     "zh": "國立臺灣大學 資訊工程學系"
   },
   "interests": [
-    { "en": "Multimodal LLMs", "zh": "多模態大型語言模型" },
-    { "en": "Computer Vision", "zh": "電腦視覺" },
-    { "en": "Diffusion Models", "zh": "擴散模型" },
-    { "en": "AI Security", "zh": "AI 安全" }
+    {
+      "en": "Multimodal LLMs",
+      "zh": "多模態大型語言模型"
+    },
+    {
+      "en": "Computer Vision",
+      "zh": "電腦視覺"
+    },
+    {
+      "en": "Diffusion Models",
+      "zh": "擴散模型"
+    },
+    {
+      "en": "AI Security",
+      "zh": "AI 安全"
+    }
   ],
   "bio": [
     {
@@ -25,7 +43,10 @@
   "github": "https://github.com/Yen666",
   "linkedin": "https://www.linkedin.com/in/yen-wei-chang/",
   "scholar": null,
-  "email": { "user": "b12901068", "domain": "csie.ntu.edu.tw" },
+  "email": {
+    "user": "b12901068",
+    "domain": "csie.ntu.edu.tw"
+  },
   "cvPdf": null,
-  "headshot": null
+  "headshot": "images/headshot.jpg"
 }

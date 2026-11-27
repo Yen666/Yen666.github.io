@@ -1,0 +1,7 @@
+---
+// Honest marker for content that has no translation in the current language.
+import { t } from '../lib/data';
+import type { Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+---
+<p class="notice" lang="en"><slot>{t(lang).notTranslated}</slot></p>

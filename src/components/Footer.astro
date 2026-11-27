@@ -1,0 +1,13 @@
+---
+import { localePath, type Lang } from '../lib/url';
+import { t, profile } from '../lib/data';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+---
+<footer class="site-footer">
+  <div class="wrap">
+    <a href={localePath(lang, '/rss.xml')}>{ui.rss}</a> ·
+    <a href={profile.github}>GitHub</a> ·
+    <span>{ui.footer}</span>
+  </div>
+</footer>

@@ -1,0 +1,36 @@
+{
+  "name": { "en": "Yen-Wei Chang", "zh": "張彥崴" },
+  "romanization": "Yen-Wei Chang",
+  "selfNames": ["Yen-Wei Chang", "張彥崴"],
+  "role": {
+    "en": "Undergraduate Student",
+    "zh": "大學部學生"
+  },
+  "affiliation": {
+    "en": "Department of Computer Science and Information Engineering, National Taiwan University",
+    "zh": "國立臺灣大學 資訊工程學系"
+  },
+  "interests": [
+    { "en": "Multimodal LLMs", "zh": "多模態大型語言模型" },
+    { "en": "Computer Vision", "zh": "電腦視覺" },
+    { "en": "Diffusion Models", "zh": "擴散模型" },
+    { "en": "AI Security", "zh": "AI 安全" }
+  ],
+  "bio": [
+    {
+      "en": "I am an undergraduate student in the Department of Computer Science and Information Engineering at National Taiwan University (NTU CSIE). My research interests include multimodal large language models, computer vision, diffusion models, and AI security.",
+      "zh": "我是國立臺灣大學資訊工程學系的大學部學生，研究興趣包括多模態大型語言模型、電腦視覺、擴散模型與 AI 安全。"
+    },
+    {
+      "en": "TODO: Add more bio details (current projects, advisors/labs, what you are looking for).",
+      "zh": null
+    }
+  ],
+  "github": "https://github.com/Yen666",
+  "linkedin": null,
+  "scholar": null,
+  "email": null,
+  "cvPdf": null,
+  "headshot": "images/headshot-placeholder.svg",
+  "headshotIsPlaceholder": true
+}

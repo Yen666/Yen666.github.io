@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Text from '../components/Text.astro';
+import { openSource, t } from '../lib/data';
+import type { Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+---
+<BaseLayout lang={lang} path="/open-source/" title={ui.opensource}>
+  <h1>{ui.opensource}</h1>
+  <p>{ui.opensourceIntro}</p>
+  <ul class="card-list">
+    {openSource.map((o) => (
+      <li class="card os">
+        <div class="pub-title"><a href={o.url}>{o.project}</a>{o.sample && <span class="tag">{ui.sample}</span>}</div>
+        <div class="pub-meta"><Text value={o.description} lang={lang} /></div>
+        {o.contributions.length === 0
+          ? <div class="pub-meta">{ui.noContributions}</div>
+          : (
+            <ul class="contrib-list">
+              {o.contributions.map((c) => (
+                <li><a href={c.url}>{c.title}</a> <span class={`badge s-${c.status}`}>{ui.status[c.status]}</span>{c.date && <span class="date"> {c.date}</span>}</li>
+              ))}
+            </ul>
+          )}
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

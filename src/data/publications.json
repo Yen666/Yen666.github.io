@@ -1,0 +1,24 @@
+[
+  {
+    "id": "sample-paper-a",
+    "sample": true,
+    "title": "TODO: Sample publication title A (replace or delete)",
+    "authors": ["Yen-Wei Chang", "TODO: Co-author"],
+    "venue": "TODO: Venue",
+    "year": 2026,
+    "type": "preprint",
+    "selected": true,
+    "links": {}
+  },
+  {
+    "id": "sample-paper-b",
+    "sample": true,
+    "title": "TODO: Sample publication title B (replace or delete)",
+    "authors": ["TODO: Co-author", "Yen-Wei Chang"],
+    "venue": "TODO: Venue",
+    "year": 2025,
+    "type": "conference",
+    "selected": false,
+    "links": {}
+  }
+]

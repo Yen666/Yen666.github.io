@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../lib/data';
+import { localePath, type Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+---
+<BaseLayout lang={lang} path="/404/" altPath="/" title={ui.notFoundTitle} noindex>
+  <h1>{ui.notFoundTitle}</h1>
+  <p>{ui.notFoundText}</p>
+  <p><a href={localePath(lang, '/')}>{ui.backHome}</a></p>
+</BaseLayout>

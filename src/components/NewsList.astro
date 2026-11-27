@@ -1,0 +1,18 @@
+---
+import { sortedNews, t } from '../lib/data';
+import type { Lang } from '../lib/url';
+import Text from './Text.astro';
+interface Props { lang: Lang; limit?: number }
+const { lang, limit } = Astro.props;
+const ui = t(lang);
+const items = limit ? sortedNews().slice(0, limit) : sortedNews();
+---
+<ul class="timeline">
+  {items.map((n) => (
+    <li>
+      <span class="date">{n.date}</span>
+      {n.link ? <a href={n.link}><Text value={n.text} lang={lang} /></a> : <Text value={n.text} lang={lang} />}
+      {n.sample && <span class="tag">{ui.sample}</span>}
+    </li>
+  ))}
+</ul>

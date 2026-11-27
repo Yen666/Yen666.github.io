@@ -1,0 +1,54 @@
+{
+  "sections": [
+    {
+      "id": "education",
+      "title": { "en": "Education", "zh": "學歷" },
+      "items": [
+        {
+          "heading": {
+            "en": "National Taiwan University",
+            "zh": "國立臺灣大學"
+          },
+          "sub": {
+            "en": "Undergraduate, Department of Computer Science and Information Engineering",
+            "zh": "資訊工程學系 大學部"
+          },
+          "dates": "TODO: start year – expected graduation",
+          "details": [{ "en": "TODO: GPA / rank / coursework (optional).", "zh": null }]
+        }
+      ]
+    },
+    {
+      "id": "research",
+      "title": { "en": "Research Experience", "zh": "研究經歷" },
+      "items": [
+        {
+          "heading": { "en": "TODO: Lab / project", "zh": null },
+          "sub": { "en": "TODO: Role, advisor", "zh": null },
+          "dates": "TODO: dates",
+          "details": [{ "en": "TODO: What you worked on.", "zh": null }]
+        }
+      ]
+    },
+    {
+      "id": "awards",
+      "title": { "en": "Awards and Honors", "zh": "獎項與榮譽" },
+      "items": [
+        {
+          "heading": { "en": "TODO: Add awards (none listed yet)", "zh": null },
+          "details": []
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "title": { "en": "Skills", "zh": "技能" },
+      "items": [
+        {
+          "heading": { "en": "TODO: Programming languages, frameworks", "zh": null },
+          "details": []
+        }
+      ]
+    }
+  ]
+}

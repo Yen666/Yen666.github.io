@@ -1,0 +1,9 @@
+---
+// Renders a bilingual field. If the translation is missing it shows the English text,
+// tagged lang="en" and visibly marked, instead of silently pretending it is translated.
+import { pick, t, type Bi } from '../lib/data';
+import type { Lang } from '../lib/url';
+const { value, lang } = Astro.props as { value: Bi; lang: Lang };
+const { text, missing } = pick(value, lang);
+---
+{missing ? <span lang="en">{text} <span class="tag">{t(lang).englishOnly}</span></span> : <Fragment>{text}</Fragment>}

@@ -1,0 +1,35 @@
+---
+import { localePath, altLang, type Lang } from '../lib/url';
+import { t } from '../lib/data';
+
+interface Props { lang: Lang; path: string; altPath?: string | null }
+const { lang, path, altPath = path } = Astro.props;
+const ui = t(lang);
+const items = [
+  ['/', ui.nav.home],
+  ['/publications/', ui.nav.publications],
+  ['/open-source/', ui.nav.opensource],
+  ['/news/', ui.nav.news],
+  ['/notes/', ui.nav.notes],
+  ['/cv/', ui.nav.cv],
+] as const;
+const isCurrent = (p: string) => (p === '/' ? path === '/' : path.startsWith(p));
+// If the twin page does not exist, send the switcher to the other language's home.
+const switchHref = localePath(altLang(lang), altPath ?? '/');
+---
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href={localePath(lang, '/')}>{ui.siteTitle}</a>
+    <nav aria-label="Main">
+      <ul>
+        {items.map(([p, label]) => (
+          <li><a href={localePath(lang, p)} aria-current={isCurrent(p) ? 'page' : undefined}>{label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <div class="tools">
+      <a href={switchHref} hreflang={altLang(lang) === 'zh' ? 'zh-Hant' : 'en'} lang={altLang(lang) === 'zh' ? 'zh-Hant' : 'en'} aria-label={ui.switchLangLabel}>{ui.switchLang}</a>
+      <button type="button" data-theme-toggle aria-label={ui.toggleTheme}>◐</button>
+    </div>
+  </div>
+</header>

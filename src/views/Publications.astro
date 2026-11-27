@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PublicationList from '../components/PublicationList.astro';
+import { t } from '../lib/data';
+import type { Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+---
+<BaseLayout lang={lang} path="/publications/" title={ui.publications}>
+  <h1>{ui.publications}</h1>
+  <PublicationList lang={lang} />
+</BaseLayout>

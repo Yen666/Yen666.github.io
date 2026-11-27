@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Text from '../components/Text.astro';
+import { cv, profile, t } from '../lib/data';
+import { withBase, type Lang } from '../lib/url';
+const { lang } = Astro.props as { lang: Lang };
+const ui = t(lang);
+---
+<BaseLayout lang={lang} path="/cv/" title={ui.cv}>
+  <h1>{ui.cv}</h1>
+  <p>
+    {profile.cvPdf
+      ? <a href={withBase(profile.cvPdf)}>{ui.cvPdf}</a>
+      : <span class="muted">{ui.cvPdfMissing}</span>}
+  </p>
+  {cv.sections.map((s) => (
+    <section id={s.id}>
+      <h2><Text value={s.title} lang={lang} /></h2>
+      {s.items.map((it) => (
+        <div class="cv-item">
+          <p><strong><Text value={it.heading} lang={lang} /></strong>{it.dates && <span class="date"> {it.dates}</span>}</p>
+          {it.sub && <p class="muted"><Text value={it.sub} lang={lang} /></p>}
+          {it.details.map((d) => <p><Text value={d} lang={lang} /></p>)}
+        </div>
+      ))}
+    </section>
+  ))}
+</BaseLayout>

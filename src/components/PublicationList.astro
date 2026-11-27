@@ -1,0 +1,43 @@
+---
+import { profile, publications, publicationsByYear, t } from '../lib/data';
+import type { Lang } from '../lib/url';
+import Text from './Text.astro';
+
+interface Props { lang: Lang; selectedOnly?: boolean }
+const { lang, selectedOnly = false } = Astro.props;
+const ui = t(lang);
+const groups = selectedOnly
+  ? [['', publications.filter((p) => p.selected)] as const]
+  : publicationsByYear();
+const isSelf = (a: string) => profile.selfNames.includes(a);
+const linkKeys = ['pdf', 'arxiv', 'code', 'project'] as const;
+---
+{groups.every(([, ps]) => ps.length === 0) && <p class="muted">{ui.noPubs}</p>}
+{groups.map(([year, ps]) => ps.length > 0 && (
+  <section>
+    {year !== '' && <h3>{year}</h3>}
+    <ul class="card-list">
+      {ps.map((p) => (
+        <li class={`card t-${p.type}`}>
+          <div class="card-badges">
+            <span class="badge venue">{p.venue}</span>
+            <span class="badge year">{p.year}</span>
+            <span class="badge type">{ui.pubTypes[p.type]}</span>
+          </div>
+          <div class="pub-title">{p.title}{p.sample && <span class="tag">{ui.samplePub}</span>}</div>
+          <div class="pub-meta">
+            {p.authors.map((a, i) => (
+              <Fragment>{i > 0 && ', '}{isSelf(a) ? <span class="self">{a}</span> : a}</Fragment>
+            ))}
+          </div>
+          <div class="pub-meta"><em>{p.venue}</em>, {p.year}{p.note && <Fragment> — <Text value={p.note} lang={lang} /></Fragment>}</div>
+          {linkKeys.some((k) => p.links[k]) && (
+            <div class="pub-links">
+              {linkKeys.map((k) => p.links[k] && <a href={p.links[k]}>{ui.links[k]}</a>)}
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  </section>
+))}
